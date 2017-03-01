@@ -1,0 +1,25 @@
+.navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+}
+
+#pieRepo{
+  height: 250px;
+  width: 250px;
+}
+
+div.list-group-item {
+    height:auto;
+    min-height:220px;
+}
+div.list-group-item.active small {
+    color:#fff;
+}
+.stars {
+    margin:20px auto 1px;
+}
