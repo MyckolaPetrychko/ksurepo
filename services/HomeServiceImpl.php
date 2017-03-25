@@ -53,9 +53,41 @@
       }
       $p = ($this->utf8ize(array("labels" => $labels, "datasets" => ["data" => $datas,
           "backgroundColor" => $backgroundColor,
-        "hoverBackgroundColor" => $hoverBackgroundColor])));
+        "hoverBackgroundColor" => $hoverBackgroundColor,
+        "yearDistribution" => $this->getYearDistribution()])));
       return ($p);
 
+    }
+
+    public function getYearDistribution(){
+        $pdo = $this->dbConnection->getPDO();
+
+        $uniqueYearQuery = "select distinct year from repo order by year asc";
+
+        $res = $pdo->query($uniqueYearQuery);
+
+        $year = array();
+
+        while($row = $res->fetch()){
+          $year[$row['year']] = 0;
+        }
+
+        $yearCountQuery = "select count(id) from repo where year=?";
+        $stm = $pdo->prepare($yearCountQuery);
+        $countYear = array();
+        $backgroundColor = array();
+        $hoverBackgroundColor = array();
+        foreach($year as $key => $value){
+            $stm->execute(array($key));
+            $row = $stm->fetch();
+            $year[$key] = $row['count(id)'];
+            array_push($countYear, array($key => $row["count(id)"]));
+            array_push($backgroundColor, "#" . $this->random_color());
+            array_push($hoverBackgroundColor, "#" . $this->random_color());
+        }
+        return array("dist" => $countYear,
+          "backgroundColor" => $backgroundColor,
+          "hoverBackgroundColor" => $hoverBackgroundColor);
     }
 
     /**
@@ -88,14 +120,13 @@
 
     function getConcretePage($from, $amount, $repo, $column, $query){
         // Get connection to database
+      //  var_dump($amount);exit;
         $pdo = $this->dbConnection->getPDO();
 
         $amountOfRepo = $this->getAmountOfRepo($repo, $column, $query);
-
         if ($from + $amount > $amountOfRepo){
           $amount = $amountOfRepo - $from;
         }
-
         // Get $amount disertation starting with $from
         if ($column == "" || $query == ""){
           if ($repo == ""){
@@ -110,8 +141,11 @@
             $queryForConcretePage = "select * from `repo` where type = (select id from allList where name = '$repo') and $column like '%$query%' limit $from, $amount";
           }
         }
-      
-        $res = $pdo->query($queryForConcretePage);
+        try{
+          $res = $pdo->query($queryForConcretePage);
+        }catch(PDOException $e){
+          return " Помилка у запиті.";
+        }
 
         $all = array();
 

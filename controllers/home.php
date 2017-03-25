@@ -27,6 +27,9 @@
     if (empty($concretePage)){
       return "Нічого не знайдено.";
     }
+    if (!is_array($concretePage)){
+        return $concretePage;
+    }
     foreach ($concretePage as $key => $value){
       $key = closetags($key);
       $value[0] = closetags($value[0]);
@@ -99,7 +102,7 @@ TR;
     $type["getAmountOfRepo"] = getAmountOfRepo($_REQUEST['repo'], '', '');
   }
   if (isset($_REQUEST['number']) && isset($_REQUEST['column'])){
-     $type["getConcretePage"] = getConcretePage($_REQUEST['amountOnOnePage'] * $_REQUEST['number'] - $_REQUEST['amountOnOnePage'], $_REQUEST['amountOnOnePage'], $_REQUEST['repo'], $_REQUEST['column'], $_REQUEST['query']);
+     $type["getConcretePage"] = getConcretePage($_REQUEST['amountOnOnePage'] * $_REQUEST['number'] - $_REQUEST['amountOnOnePage'], $_REQUEST['amountOnOnePage'] + 0, $_REQUEST['repo'], $_REQUEST['column'], $_REQUEST['query']);
   }
 
   if (isset($_REQUEST['number']) && !isset($_REQUEST['column'])){

@@ -1,9 +1,17 @@
 $(function(){
   $('#login').click(function(){
 
-      $("#mainContent").load("/views/login.html");
-      $("#repoContent").html("");
-      $("#filter").html("");
+
+
+    //$("#loginColumn").load("/views/login.html");
+    $("#loginColumn").show();
+    $("#repoContent").html("");
+    $("#statistics").hide();
+    $("#filter").html("");
+
+    $('#loginSubmit').click(function(){
+    
+    });
 
   /*  var request = $.ajax({
       url: "/controllers/login.php",
@@ -16,4 +24,7 @@ $(function(){
     });*/
 
   });
+
+
+
 });

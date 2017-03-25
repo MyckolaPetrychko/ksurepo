@@ -23,3 +23,23 @@ div.list-group-item.active small {
 .stars {
     margin:20px auto 1px;
 }
+
+.glyphicon {
+    font-size: 300%;
+}
+
+#anchor{
+  position: fixed;
+  bottom: 3%;
+  right: 2%;
+  border-radius: 50%;
+}
+
+#anchorUp{
+  color: green;
+  cursor: pointer;
+  display: none;
+}
+#anchorUp:hover{
+  opacity: 0.6;
+}
